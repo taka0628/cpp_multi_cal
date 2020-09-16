@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int get_double_csvdata(FILE* fp, mydata_class data, double temp_data[])
+int get_double_csvdata(FILE* fp, const Cal &data, double temp_data[])
 {
 	char readline[sizeof(double) * 1024] = { 0 };
 	if (fgets(readline, sizeof(readline), fp) == NULL) {
@@ -45,6 +45,7 @@ int main() {
 
 
 	/*ƒf[ƒ^‚Ì“Ç‚İ‚İ*/
+	int aa = data.get_dim();
 	double* temp_data = new double[data.get_dim()];
 	for (int i = 0; i < data.get_dim(); i++) {
 		temp_data[i] = 0;

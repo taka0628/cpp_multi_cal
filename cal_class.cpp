@@ -2,6 +2,8 @@
 
 using namespace std;
 
+Cal::Cal() :mydata_class() {};
+
 void Cal::cal_ave() {
 	double sum = 0;
 	if (data_list.array == nullptr) {

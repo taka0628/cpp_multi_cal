@@ -14,11 +14,11 @@ class Array_1
 
 public:
 	Array_1();
-	double* array;
 	virtual ~Array_1();
 	void create_array(int size);
 	int get_array_size() const;
 
+	double* array;
 };
 
 
@@ -40,7 +40,7 @@ private:
 
 
 
-class mydata_class : public virtual Array_1, Array_2
+class mydata_class : public Array_1, public Array_2
 {
 protected:
 	Array_2 data_list;
@@ -66,7 +66,6 @@ public:
 	template<int dim, int elem> void input_data_test(double data[dim][elem]);
 	void input_data(double data[], int write_elem);
 	void create_mem();
-	void delete_mem();
 
 
 

@@ -58,6 +58,8 @@ void Array_2::create_array(int m, int n) {
 				array[i][elem] = 0;
 			}
 		}
+		this->m = m;
+		this->n = n;
 	}
 	else {
 		cerr << "[ERROE]\n" << __func__ << endl;

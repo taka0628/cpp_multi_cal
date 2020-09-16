@@ -145,8 +145,8 @@ void mydata_class::print_data() const {
 			cout << endl;
 		}
 #else
-		for (int elem = 0; elem < data_elem_size; elem++) {
-			for (int dim = 0; dim < data_dim_size; dim++) {
+		for (int elem = 0; elem < data_list.get_array_column(); elem++) {
+			for (int dim = 0; dim < data_list.get_array_row_size(); dim++) {
 				printf("%8.3f ", data_list.array[dim][elem]);
 			}
 			cout << endl;
@@ -177,8 +177,8 @@ void mydata_class::print_data() const {
 		int cov_point = 0;
 		int x_2 = 0;
 		cout << '\n';
-		for (int dim = 0; dim < cov_xx.get_array_row_size(); dim++) {
-			while (x_2 < cov_xx.get_array_column())
+		for (int dim = 0; dim < cov_xx.get_array_row_size() - 1; dim++) {
+			while (x_2 < cov_xx.get_array_row_size())
 			{
 				printf("cov_x%d_x%d: %.3lf ", dim + 1, x_2 + 1, cov_xx.array[dim][x_2]);
 				x_2++;

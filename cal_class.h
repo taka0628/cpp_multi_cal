@@ -9,7 +9,7 @@ class Cal : public mydata_class
 {
 
 public:
-	Cal() :mydata_class(){};
+	Cal();
 	void cal_ave();
 	void cal_var();
 	double power(double x, int times) const;
