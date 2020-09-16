@@ -1,0 +1,3 @@
+﻿  array.cpp
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\array.cpp(23,3): warning C4551: 関数呼び出しに引数リストがありません。
+  multi_cal_prog.vcxproj -> C:\Users\takat\source\repos\C++Study\multi_cal_prog\Debug\multi_cal_prog.exe
