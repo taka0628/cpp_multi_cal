@@ -66,7 +66,6 @@ int main() {
 	data.cal_var();
 	data.cal_cov();
 
-
-
+	
 	data.print_data();
 }

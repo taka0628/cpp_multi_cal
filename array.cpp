@@ -65,9 +65,11 @@ void Array_2::create_array(int m, int n) {
 }
 
 
+
 int Array_2::get_array_row_size() const {
 	return m;
 }
+
 
 int Array_2::get_array_column() const {
 	return n;
