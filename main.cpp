@@ -4,10 +4,6 @@
 
 //#include "data_class.h"
 
-#define ELEM_SIZE 6
-#define DIM_MAX 100
-#define N 2
-#define INVER
 
 
 using namespace std;
