@@ -2,6 +2,8 @@
 
 using namespace std;
 
+/*Array_1*/
+
 Array_1::Array_1()
 {
 	array = nullptr;
@@ -10,7 +12,9 @@ Array_1::Array_1()
 
 Array_1::~Array_1()
 {
-	delete[] array;
+	if (array != nullptr) {
+		delete[] array;
+	}
 }
 
 void Array_1::create_array(int size) {
@@ -32,6 +36,8 @@ int Array_1::get_array_size() const {
 	return array_size;
 }
 
+
+/*Array_2*/
 
 Array_2::Array_2()
 {
@@ -66,13 +72,10 @@ void Array_2::create_array(int m, int n) {
 	}
 }
 
-
-
-int Array_2::get_array_row_size() const {
+int Array_2::get_array_row_size() const { //m
 	return m;
 }
 
-
-int Array_2::get_array_column() const {
+int Array_2::get_array_column() const { //n
 	return n;
 }

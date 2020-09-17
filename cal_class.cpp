@@ -2,7 +2,13 @@
 
 using namespace std;
 
-Cal::Cal() :mydata_class() {};
+Cal::Cal() {
+
+}
+
+Cal::~Cal() {
+
+}
 
 void Cal::cal_ave() {
 	double sum = 0;
@@ -31,7 +37,6 @@ double Cal::power(double x, int times) const {
 		exit;
 	}
 }
-
 
 void Cal::cal_var() {
 	if (data_list.array == nullptr || var.array == nullptr || ave.array == nullptr) {
@@ -65,7 +70,6 @@ void Cal::cal_cov() {
 		temp--;
 	}
 
-
 	int cov_idx = 0;
 	int x_1 = 0, x_2 = 1;
 	for (int i = 0; i < data_dim_size - 2 && cov_cnt >= 0; i++) {
@@ -87,7 +91,6 @@ void Cal::cal_cov() {
 	}
 
 	/*cov_xy*/
-
 	for (int i = 0; i < data_dim_size - 1; i++) {
 		double temp = 0;
 		x_1 = i;
@@ -95,5 +98,240 @@ void Cal::cal_cov() {
 			temp += (data_list.array[x_1][elem] - ave.array[x_1]) * (data_list.array[data_dim_size - 1][elem] - ave.array[data_dim_size - 1]);
 		}
 		cov_xy.array[x_1] = temp / (data_elem_size - 1);
+	}
+}
+
+void vec_diff(Array_1& a, Array_2& b, int b_dim, int dim) {
+	
+	for (int i = 0; i < dim; i++) {
+		b.array[b_dim][i] -= a.array[i];
+	}
+}
+
+
+void Cal::cal_inver() {
+	Array_1 use_var;
+	use_var.create_array(get_inver_dim());
+	Array_2 use_cov;
+	use_cov.create_array(get_inver_dim(), get_inver_dim());
+	int cov_point = 0;
+
+	/*下準備*/
+	/*使用するデータをコピー*/
+	for (int i = 0; i < get_inver_dim(); i++) {
+		use_var.array[i] = var.array[get_inver_use_data(i)];
+	}
+	/*int use_cov_dim = 0;
+	for (int i = 0; i < get_inver_dim() - 1; i++) {
+		cov_point = i + 1;
+		while (cov_point < get_inver_dim()) {
+			use_cov.array[use_cov_dim][cov_point - 1 - i] = cov_xx.array[get_inver_use_data(i)][get_inver_use_data(cov_point) - 1 - get_inver_use_data(i)];
+			cov_point++;
+		}
+		use_cov_dim++;
+	}*/
+
+	for (int m = 0; m < get_inver_dim(); m++) {
+		for (int n = m + 1; n < get_inver_dim(); n++) {
+			use_cov.array[m][n] = cov_xx.array[get_inver_use_data(m)][get_inver_use_data(n)];
+		}
+	}
+
+	Array_2 m;
+	m.create_array(get_inver_dim(), get_inver_dim());
+	for (int i = 0; i < get_inver_dim(); i++) {
+		for (int j = 0; j < get_inver_dim(); j++) {
+			if (i == j) {
+				m.array[i][j] = use_var.array[i];
+			}
+			else {
+				if (i < j) {
+					m.array[i][j] = use_cov.array[i][j];
+					m.array[j][i] = use_cov.array[i][j];
+				}
+			}
+		}
+	}
+
+	Array_1 a;
+	a.create_array(get_inver_dim());
+	for (int i = 0; i < get_inver_dim(); i++) {
+		a.array[i] = cov_xy.array[get_inver_use_data(i)];
+	}
+
+	cout << "連立方程式を計算" << endl;
+	cout << "use_dim: ";
+	for (int i = 0; i < get_inver_dim(); i++) {
+		cout << get_inver_use_data(i) << ", ";
+	}
+	cout << endl;
+
+	for (int i = 0; i < get_inver_dim(); i++) {
+		for (int j = 0; j < get_inver_dim(); j++) {
+			printf("%.4f ", m.array[i][j]);
+			if (j == get_inver_dim() - 1) {
+				printf("\n");
+			}
+		}
+	}
+	cout << endl;
+
+	for (int i = 0; i < get_inver_dim(); i++) {
+		for (int j = i + 1; j < get_inver_dim(); j++) {
+			double coef = m.array[j][i] / m.array[i][i];
+			Array_1 del;
+			del.create_array(get_inver_dim());
+
+			for (int k = 0; k < get_inver_dim(); k++) {
+				del.array[k] = m.array[i][k] * coef;
+			}
+			vec_diff(del, m, j, get_inver_dim());
+			a.array[j] -= a.array[i] * coef;
+		}
+	}
+
+	for (int i = get_inver_dim() - 1; i >= 0; i--) {
+		double x = 1. / m.array[i][i];
+		m.array[i][i] *= x;
+		a.array[i] *= x;
+
+		for (int j = 0; j < i; j++) {
+			a.array[j] -= a.array[i] * m.array[j][i];
+			m.array[j][i] = 0;
+		}
+	}
+
+	for (int i = 0; i < get_inver_dim(); i++) {
+		for (int j = 0; j < get_inver_dim(); j++) {
+			printf("%.3f ", m.array[i][j]);
+			if (j == get_inver_dim() - 1) {
+				printf("\n");
+			}
+		}
+	}
+
+	for (int i = 0; i < get_inver_dim(); i++) {
+		printf("a%d: %.5lf ", i, a.array[i]);
+		result.array[i] = a.array[i];
+	}
+	cout << endl;
+
+	//#endif
+}
+
+int Cal::nCr(int n, int r) const {
+	int up_num = 1;
+	int under_num = 1;
+	for (int i = 0; i < n; i++) {
+		up_num *= r - i;
+	}
+	for (int i = n; i > 1; i--) {
+		under_num *= i;
+	}
+	if (under_num > 0) {
+		return up_num / under_num;
+	}
+	else {
+		cerr << "[ERROR]\n" << __func__ << endl;
+		return 0;
+	}
+}
+
+/*Inver*/
+
+Inver::Inver()
+{
+	inver_dim = 2;
+	inver_use_data.array = nullptr;
+}
+
+Inver::Inver(int dim) 
+{
+	inver_dim = 2;
+}
+
+Inver::~Inver()
+{
+	
+}
+
+void Inver::cal_next_inver_data() {
+	bool isDimPlus = false;
+	if (inver_use_data.array == nullptr && get_dim() > 0) {
+		inver_use_data.create_array(get_dim() - 1);
+		inver_dim = 2;//初期状態, 最初は二次元の行列計算
+	}
+	if (result.array == nullptr) {
+		result.create_array(get_dim() - 1);
+	}
+
+	if (get_dim() <= 0) {
+		cerr << "[ERROR]\n" << __func__ << endl;
+		exit;
+	}
+
+
+	for (int i = inver_dim - 1; i >= 0; i--) {
+		if (i == inver_dim - 1 && inver_use_data.array[i] < get_dim() - 2) {//データの最大配列を参照&&格納さてている値がデータの次元以下の時
+			inver_use_data.array[i]++;//値に1を加算
+			break;
+		}
+		if (i > 0) {
+			if (inver_use_data.array[i] + 1 < inver_use_data.array[i + 1]) {
+				inver_use_data.array[i]++;
+				break;
+			}
+			else {
+				continue;
+			}
+		}
+		else if (i == 0) {
+			if (inver_use_data.array[i] + 1 < inver_use_data.array[i + 1]) {
+				for (int j = 0; j < inver_dim; j++) {
+					if (j == 0) {
+						inver_use_data.array[j] = inver_use_data.array[0] + 1;
+					}
+					else {
+						inver_use_data.array[j] = inver_use_data.array[j - 1] + 1;
+					}
+				}
+				break;
+			}
+			else {
+				if (inver_dim < get_dim() - 1) {//現在のペアを全て解析したとき
+					inver_dim++;//ペアを増やす
+					for (int j = 0; j < inver_dim; j++) {//新たなペアで再配置
+						inver_use_data.array[j] = j;
+					}
+					break;
+				}
+			}
+		}
+	}
+}
+
+
+
+int Inver::get_inver_dim() const {
+	return inver_dim;
+}
+
+int Inver::get_inver_use_data(int elem) const {
+	if (elem < inver_dim && elem >= 0) {
+		return inver_use_data.array[elem];
+	}
+	else {
+		cerr << "[ERROR]\n" << __func__ << endl;
+		exit;
+	}
+}
+
+double Inver::get_inver_result(int elem) const {
+	if (elem >= 0 && elem <= result.get_array_size()) {
+		return result.array[elem];
+	}
+	else {
+		cerr << "[ERROR]\n" << __func__ << endl;
+		exit;
 	}
 }

@@ -4,7 +4,7 @@ using namespace std;
 
 
 mydata_class::mydata_class()
-	: data_list(), ave(), var(), cov_xx(), cov_xy()
+	//: data_list(), ave(), var(), cov_xx(), cov_xy()
 {
 	data_dim_size = 0;
 	data_elem_size = 0;
@@ -212,4 +212,14 @@ double mydata_class::get_ave(int dim)const {
 
 double mydata_class::get_ver(int dim)const {
 	return var.array[dim];
+}
+
+double mydata_class::get_data_list(int m, int n) const{
+	if (m >= 0 && n >= 0 && m <= data_list.get_array_row_size() && n <= data_list.get_array_column()) {
+		return data_list.array[m][n];
+	}
+	else {
+		cerr << "[ERROR]\n" << __func__ << endl;
+		exit;
+	}
 }

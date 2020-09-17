@@ -142,12 +142,14 @@
   <ItemGroup>
     <ClInclude Include="cal_class.h" />
     <ClInclude Include="data.h" />
+    <ClInclude Include="Result.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="array.cpp" />
     <ClCompile Include="cal_class.cpp" />
     <ClCompile Include="data.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Result.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

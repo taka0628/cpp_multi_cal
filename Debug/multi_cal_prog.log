@@ -1,4 +1,12 @@
-﻿  data.cpp
-C:\Users\takat\source\repos\C++Study\multi_cal_prog\data.cpp(57,2): warning C4551: 関数呼び出しに引数リストがありません。
-C:\Users\takat\source\repos\C++Study\multi_cal_prog\data.cpp(140,1): warning C4067: プリプロセッサ ディレクティブの後に余分な文字がありました - 改行が必要です
+﻿  cal_class.cpp
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\cal_class.cpp(16,3): warning C4551: 関数呼び出しに引数リストがありません。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\cal_class.cpp(37,3): warning C4551: 関数呼び出しに引数リストがありません。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\cal_class.cpp(43,3): warning C4551: 関数呼び出しに引数リストがありません。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\cal_class.cpp(270,3): warning C4551: 関数呼び出しに引数リストがありません。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\cal_class.cpp(321,35): warning C4244: 'return': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\cal_class.cpp(325,3): warning C4551: 関数呼び出しに引数リストがありません。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\cal_class.cpp(335,3): warning C4551: 関数呼び出しに引数リストがありません。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\cal_class.cpp(39): warning C4715: 'Cal::power': 値を返さないコントロール パスがあります。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\cal_class.cpp(327): warning C4715: 'Inver::get_inver_use_data': 値を返さないコントロール パスがあります。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\cal_class.cpp(337): warning C4715: 'Inver::get_inver_result': 値を返さないコントロール パスがあります。
   multi_cal_prog.vcxproj -> C:\Users\takat\source\repos\C++Study\multi_cal_prog\Debug\multi_cal_prog.exe

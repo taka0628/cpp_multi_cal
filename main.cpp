@@ -1,14 +1,14 @@
 
 #include "cal_class.h"
 #include "data.h"
+#include "Result.h"
 
-//#include "data_class.h"
-
+/*‘S‚Ä‚Ìà–¾•Ï”‚Ì‘g‚İ‡‚í‚¹‚©‚çÅ“K‚Èà–¾•Ï”‚ğ‹‚ß‚é*/
 
 
 using namespace std;
 
-int get_double_csvdata(FILE* fp, const Cal &data, double temp_data[])
+int get_double_csvdata(FILE* fp, const Cal& data, double temp_data[])
 {
 	char readline[sizeof(double) * 1024] = { 0 };
 	if (fgets(readline, sizeof(readline), fp) == NULL) {
@@ -63,6 +63,34 @@ int main() {
 	data.cal_var();
 	data.cal_cov();
 
-	
 	data.print_data();
+
+	int loop_cnt = 0;
+	int temp = 0;
+	for (int i = 2; i <= data.get_dim() - 1; i++) {
+		temp = data.nCr(i, data.get_dim() - 1);
+		if (temp <= 0) {
+			puts("loop_count error");
+			return 0;
+		}
+		else {
+			loop_cnt += temp;
+		}
+	}
+	total_result result;
+	while (loop_cnt--) {
+		data.cal_next_inver_data();
+		data.cal_inver();
+		
+		dis_result dis_result(data);
+		dis_result.cal_prediction_y(data);
+		dis_result.cal_R();
+		dis_result.cal_adjustR(data);
+		dis_result.cal_diff_R_verR();
+
+		dis_result.print_R();
+
+		result.input_score(dis_result);
+	}
+	result.print_total_result();
 }
