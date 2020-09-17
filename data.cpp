@@ -189,7 +189,6 @@ void mydata_class::print_data() const {
 		cout << '\n';
 	}
 
-
 	if (cov_xy.array != nullptr) {
 		for (int i = 0; i < cov_xy.get_array_size(); i++) {
 			printf("cov_xy[%d]: %.4f\n", i, cov_xy.array[i]);

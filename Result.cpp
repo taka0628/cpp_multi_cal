@@ -1,4 +1,5 @@
 #include "Result.h"
+//#include <>
 
 using namespace std;
 
@@ -19,7 +20,7 @@ double power(double x, int times){
 dis_result::dis_result() {
 	R = 0;
 	adjust_R = 0;
-	diff_R_adjR = 0;
+	diff_R_adjR = UINT16_MAX;
 	prediction_ave = 0;
 	prediction_var = 0;
 }
@@ -154,6 +155,11 @@ total_result::~total_result() {
 void total_result::input_score(const dis_result& result) {
 	if (max_R.get_R() < result.get_R()) {
 		max_R = result;
+		printf("expression ");
+		for (int i = 0; i < max_R.get_use_dim_size(); i++) {
+			printf("[%d]: %lf", i, max_R.get_expression(i));
+		}
+		cout << endl;
 	}
 	if (max_adjR.get_adjust_R() < result.get_adjust_R()) {
 		max_adjR = result;
