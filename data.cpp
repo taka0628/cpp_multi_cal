@@ -8,6 +8,7 @@ mydata_class::mydata_class()
 {
 	data_dim_size = 0;
 	data_elem_size = 0;
+	inver_dim = 0;
 }
 
 void mydata_class::create_mem() {
@@ -19,30 +20,9 @@ void mydata_class::create_mem() {
 			var.create_array(data_dim_size);
 			cov_xx.create_array(data_dim_size - 1, data_elem_size);
 			cov_xy.create_array(data_dim_size - 1);
+			multiple_regression_coefficient.create_array(data_dim_size);
+			inver_use_data.create_array(data_dim_size);
 
-			/*data_list.array = new double* [data_dim_size];
-			for (int i = 0; i < data_dim_size; i++) {
-				data_list[i] = new double[data_elem_size];
-			}
-			ave = new double[data_dim_size];
-			var = new double[data_dim_size];
-			for (int i = 0; i < data_dim_size; i++) {
-				ave[i] = var[i] = 0;
-			}
-
-			cov_xy = new double[data_dim_size - 1];
-			for (int i = 0; i < data_dim_size - 1; i++) {
-				cov_xy[i] = 0;
-			}
-
-			cov_xx = new double* [data_dim_size - 2];
-			int temp = data_dim_size - 1;
-			for (int i = 0; i < data_dim_size - 2; i++) {
-				cov_xx[i] = new double[temp];
-				for (int j = 0; j < temp; j++) {
-					cov_xx[i][j] = 0;
-				}
-			}*/
 		}
 		catch (bad_alloc& error)
 		{
@@ -58,30 +38,11 @@ void mydata_class::create_mem() {
 }
 
 mydata_class::~mydata_class() {
-	/*for (int i = 0; i < data_dim_size; i++) {
-		if (data_list[i] != nullptr) {
-			delete[](data_list[i]);
-		}
-		else {
-			cerr << "delete_mem error\n" << endl;
-			exit;
-		}
-	}
-	delete[] data_list;
-	delete[](ave);
-	delete[](var);
-	delete[](cov_xy);
-	for (int i = 0; i < data_dim_size - 2; i++) {
-		delete[] cov_xx[i];
-	}
-	delete[] cov_xx;*/
 
-
-	cout << "³í‚Éƒƒ‚ƒŠ‚ª‰ð•ú‚³‚ê‚Ü‚µ‚½" << endl;
 }
 
 void mydata_class::input_data(double data[], int write_elem) {
-	for (int i = 0; i < data_list.get_array_row_size(); i++) {
+	for (int i = 0; i < data_list.get_array_m(); i++) {
 		data_list.array[i][write_elem] = data[i];
 	}
 }
@@ -145,8 +106,8 @@ void mydata_class::print_data() const {
 			cout << endl;
 		}
 #else
-		for (int elem = 0; elem < data_list.get_array_column(); elem++) {
-			for (int dim = 0; dim < data_list.get_array_row_size(); dim++) {
+		for (int elem = 0; elem < data_list.get_array_n(); elem++) {
+			for (int dim = 0; dim < data_list.get_array_m(); dim++) {
 				printf("%8.3f ", data_list.array[dim][elem]);
 			}
 			cout << endl;
@@ -177,8 +138,8 @@ void mydata_class::print_data() const {
 		int cov_point = 0;
 		int x_2 = 0;
 		cout << '\n';
-		for (int dim = 0; dim < cov_xx.get_array_row_size() - 1; dim++) {
-			while (x_2 < cov_xx.get_array_row_size())
+		for (int dim = 0; dim < cov_xx.get_array_m() - 1; dim++) {
+			while (x_2 < cov_xx.get_array_m())
 			{
 				printf("cov_x%d_x%d: %.3lf ", dim + 1, x_2 + 1, cov_xx.array[dim][x_2]);
 				x_2++;
@@ -214,11 +175,15 @@ double mydata_class::get_ver(int dim)const {
 }
 
 double mydata_class::get_data_list(int m, int n) const{
-	if (m >= 0 && n >= 0 && m <= data_list.get_array_row_size() && n <= data_list.get_array_column()) {
+	if (m >= 0 && n >= 0 && m <= data_list.get_array_m() && n <= data_list.get_array_n()) {
 		return data_list.array[m][n];
 	}
 	else {
 		cerr << "[ERROR]\n" << __func__ << endl;
 		exit;
 	}
+}
+
+double** mydata_class::get_data_list() const {
+	return data_list.array;
 }

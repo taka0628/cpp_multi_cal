@@ -22,7 +22,6 @@ public:
 	double* array;//配列本体
 };
 
-
 /*二次元配列と、各次元を記録するクラス*/
 class Array_2
 {
@@ -30,8 +29,8 @@ public:
 	Array_2();
 	virtual ~Array_2();
 	void create_array(int m, int n);
-	int get_array_row_size() const;//m
-	int get_array_column() const;//n
+	int get_array_m() const;//m
+	int get_array_n() const;//n
 
 	double** array;
 
@@ -40,11 +39,10 @@ private:
 	int n;//列
 };
 
-
 /*回帰係数を求めるまでに必要な数値を保持するクラス*/
 class mydata_class : public Array_1, public Array_2
 {
-protected:
+public:
 	Array_2 data_list;//データ本体
 	int data_elem_size;//データの要素数
 	int data_dim_size;//データの種類数
@@ -52,9 +50,10 @@ protected:
 	Array_1 var;//分散
 	Array_2 cov_xx;//説明変数同士の共分散
 	Array_1 cov_xy;//説明変数と目的変数の共分散
-	Array_1 inver_result;//逆行列
+	Array_1 inver_use_data;//逆行列の計算で使用するdata_listの配列番号
+	int inver_dim;//逆行列の次元
+	Array_1 multiple_regression_coefficient;//回帰係数
 
-public:
 	mydata_class();
 	//data_class(int data_elem, int data_dim);
 	virtual ~mydata_class();
@@ -65,6 +64,7 @@ public:
 	int get_dim() const;//読み込んだデータの種類の数を返す
 	int get_elem() const;//読み込んだデータの要素数を返す
 	double get_data_list(int m, int n) const;//任意の場所のデータを返す
+	double** get_data_list() const;//任意の場所のデータを返す
 
 	int input_data_elem(FILE* fp);//ファイルから要素数を取得
 	int input_data_dim(FILE* fp);//ファイルからデータの種類数を取得

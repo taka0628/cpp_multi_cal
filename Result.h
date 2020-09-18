@@ -11,12 +11,12 @@ class dis_result : public Array_1
 {
 public:
 	dis_result();
-	dis_result(const Cal& data);
+	dis_result(const mydata_class& data);
 	~dis_result();
 
-	void cal_prediction_y(const Cal& data);
+	void cal_prediction_y(const mydata_class& data);
 	void cal_R();
-	void cal_adjustR(const Cal& data);
+	void cal_adjustR(const mydata_class& data);
 	void cal_diff_R_verR();
 	void print_R() const;
 
@@ -27,7 +27,6 @@ public:
 	int get_use_dim(int elem) const;
 	double get_expression(int elem) const;
 
-private:
 	Array_1 prediction_y;
 	Array_1 expression;
 	Array_1 use_data;
@@ -40,6 +39,7 @@ private:
 };
 
 
+
 /*d‘ŠŠÖŒW”‚Ì‚‚¢•ªÍŒ‹‰Ê‚ğ•Û*/
 class total_result
 {
@@ -49,6 +49,7 @@ public:
 
 	void input_score(const dis_result& result);
 	void print_total_result() const;
+	void copy_result(dis_result& result, const dis_result& temp);
 
 private:
 	dis_result max_R;

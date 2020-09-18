@@ -23,15 +23,17 @@ dis_result::dis_result() {
 	diff_R_adjR = UINT16_MAX;
 	prediction_ave = 0;
 	prediction_var = 0;
+	
 }
 
-dis_result::dis_result(const Cal& data) {
+dis_result::dis_result(const mydata_class& data) {
 	R = 0;
 	adjust_R = 0;
 	diff_R_adjR = 0;
 	prediction_ave = 0;
 	prediction_var = 0;
 	var_y = data.get_ver(data.get_dim() - 1);
+
 	if (prediction_y.array == nullptr) {
 		prediction_y.create_array(data.get_elem());
 	}
@@ -39,9 +41,9 @@ dis_result::dis_result(const Cal& data) {
 		expression.create_array(data.get_dim());
 	}
 	if (use_data.array == nullptr) {
-		use_data.create_array(data.get_inver_dim());
+		use_data.create_array(data.inver_dim);
 		for (int i = 0; i < use_data.get_array_size(); i++) {
-			use_data.array[i] = data.get_inver_use_data(i);
+			use_data.array[i] = data.inver_use_data.array[i];
 		}
 	}
 }
@@ -51,25 +53,25 @@ dis_result::~dis_result() {
 }
 
 /*à–¾•Ï”‚ð—\‘ª*/
-void dis_result::cal_prediction_y(const Cal& data) {
+void dis_result::cal_prediction_y(const mydata_class& data) {
 	double a0 = data.get_ave(data.get_dim() - 1);
-	for (int i = 0; i < data.get_inver_dim(); i++) {
-		a0 -= data.get_inver_result(i) * data.get_ave(data.get_inver_use_data(i));
+	for (int i = 0; i < data.data_dim_size; i++) {
+		a0 -= data.multiple_regression_coefficient.array[i] * data.get_ave(data.inver_use_data.array[i]);
 	}
 	printf("Y = %.4lf", a0);
 
 	expression.array[0] = a0;
-	for (int i = 0; i < data.get_inver_dim(); i++) {
-		printf(" + %.4fx_%d", data.get_inver_result(i), i + 1);
-		expression.array[i + 1] = data.get_inver_result(i);
+	for (int i = 0; i < data.inver_dim; i++) {
+		printf(" + %.4fx_%d", data.multiple_regression_coefficient.array[i], i + 1);
+		expression.array[i + 1] = data.multiple_regression_coefficient.array[i];
 	}
 	cout << endl;
 
 	/*d‰ñ‹AŒW”‚©‚çà–¾•Ï”‚ð—\‘ª*/
 	for (int i = 0; i < data.get_elem(); i++) {
 		prediction_y.array[i] += a0;
-		for (int j = 0; j < data.get_inver_dim(); j++) {
-			prediction_y.array[i] += data.get_inver_result(j) * data.get_data_list(data.get_inver_use_data(j), i);
+		for (int j = 0; j < data.inver_dim; j++) {
+			prediction_y.array[i] += data.multiple_regression_coefficient.array[j] * data.get_data_list(data.inver_use_data.array[j], i);
 		}
 	}
 }
@@ -87,14 +89,14 @@ void dis_result::cal_R() {
 	R = prediction_var / var_y;
 }
 
-void dis_result::cal_adjustR(const Cal& data) {
+void dis_result::cal_adjustR(const mydata_class& data) {
 	double Scal = 0, Sy = 0;
 	for (int i = 0; i < prediction_y.get_array_size(); i++) {
 		Scal += power(data.get_data_list(data.get_dim() - 1, i) - prediction_y.array[i], 2);
 		//Sy += (*VAL(data, data_dim - 1, i) - ave.y) * (*VAL(data, data_dim - 1, i) - ave.y);
 		Sy += power(data.get_data_list(data.get_dim() - 1, i) - data.get_ave(data.get_dim() - 1), 2);
 	}
-	Scal = Scal / (data.get_elem() - data.get_inver_dim());
+	Scal = Scal / (data.get_elem() - data.inver_dim);
 	Sy = Sy / (data.get_elem() - 1);
 	adjust_R = 1 - (Scal / Sy);
 }
@@ -148,24 +150,36 @@ total_result::total_result() {
 
 }
 
+
 total_result::~total_result() {
+
+}
+
+
+void total_result::copy_result(dis_result& result, const dis_result& temp) {
+	result.R = temp.R;
+	result.adjust_R = temp.adjust_R;
+	result.diff_R_adjR = temp.diff_R_adjR;
+	result.expression.create_array(temp.get_use_dim_size() + 1);
+	for (int i = 0; i < temp.get_use_dim_size() + 1; i++) {
+		result.expression.array[i] = temp.expression.array[i];
+	}
+	result.use_data.create_array(temp.get_use_dim_size());
+	for (int i = 0; i < temp.get_use_dim_size(); i++) {
+		result.use_data.array[i] = temp.use_data.array[i];
+	}
 
 }
 
 void total_result::input_score(const dis_result& result) {
 	if (max_R.get_R() < result.get_R()) {
-		max_R = result;
-		printf("expression ");
-		for (int i = 0; i < max_R.get_use_dim_size(); i++) {
-			printf("[%d]: %lf", i, max_R.get_expression(i));
-		}
-		cout << endl;
+		copy_result(max_R, result);
 	}
 	if (max_adjR.get_adjust_R() < result.get_adjust_R()) {
-		max_adjR = result;
+		copy_result(max_adjR, result);
 	}
 	if (min_diff_R.get_diff_R() > result.get_diff_R()) {
-		min_diff_R = result;
+		copy_result(min_diff_R, result);
 	}
 }
 
@@ -181,6 +195,7 @@ void print_result_tepm(const dis_result& result) {
 	}
 	printf("+ %.4lf\n\n", result.get_expression(0));
 }
+
 
 void total_result::print_total_result() const {
 	printf("[max_R]\n");

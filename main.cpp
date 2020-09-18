@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int get_double_csvdata(FILE* fp, const Cal& data, double temp_data[])
+int get_double_csvdata(FILE* fp, const mydata_class& data, double temp_data[])
 {
 	char readline[sizeof(double) * 1024] = { 0 };
 	if (fgets(readline, sizeof(readline), fp) == NULL) {
@@ -38,7 +38,7 @@ int main() {
 		return 0;
 	}
 
-	Cal data;
+	mydata_class data;
 	data.input_data_dim(fp);
 	data.input_data_elem(fp);
 	data.create_mem();
@@ -59,16 +59,18 @@ int main() {
 	fclose(fp);
 
 	/*ŒvŽZ*/
-	data.cal_ave();
-	data.cal_var();
-	data.cal_cov();
+	Cal cal;
+
+	cal.cal_ave(data);
+	cal.cal_var(data);
+	cal.cal_cov(data);
 
 	data.print_data();
 
 	int loop_cnt = 0;
 	int temp = 0;
 	for (int i = 2; i <= data.get_dim() - 1; i++) {
-		temp = data.nCr(i, data.get_dim() - 1);
+		temp = cal.nCr(i, data.get_dim() - 1);
 		if (temp <= 0) {
 			puts("loop_count error");
 			return 0;
@@ -79,8 +81,9 @@ int main() {
 	}
 	total_result result;
 	while (loop_cnt--) {
-		data.cal_next_inver_data();
-		data.cal_inver();
+		cal.cal_next_inver_data(data);
+		cal.cal_inver(data);
+		cal.input_data_from_Inver(data);
 		
 		dis_result dis_result(data);
 		dis_result.cal_prediction_y(data);
@@ -92,5 +95,6 @@ int main() {
 
 		result.input_score(dis_result);
 	}
+	cout << endl;
 	result.print_total_result();
 }

@@ -72,10 +72,10 @@ void Array_2::create_array(int m, int n) {
 	}
 }
 
-int Array_2::get_array_row_size() const { //m
+int Array_2::get_array_m() const { //m
 	return m;
 }
 
-int Array_2::get_array_column() const { //n
+int Array_2::get_array_n() const { //n
 	return n;
 }
