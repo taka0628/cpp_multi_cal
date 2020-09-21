@@ -73,7 +73,10 @@ void Cal::cal_cov(mydata_class& data) {
 
 	int cov_idx = 0;
 	int x_1 = 0, x_2 = 1;
+	/*
 	for (int i = 0; i < data.data_dim_size - 2 && cov_cnt >= 0; i++) {
+		x_1 = i;
+		x_2 = x_1 + 1;
 		while (cov_cnt--) {
 			double temp = 0;
 			for (int elem = 0; elem < data.data_elem_size; elem++) {
@@ -88,6 +91,18 @@ void Cal::cal_cov(mydata_class& data) {
 				x_1 = i + 1;
 				x_2 = x_1 + 1;
 			}
+		}
+	}
+	*/
+	for (int i = 0; i < data.data_dim_size - 2 && cov_cnt >= 0; i++) {
+		for (int j = i + 1; j < data.data_dim_size - 1; j++)
+		{
+			double temp = 0;
+			for (int elem = 0; elem < data.data_elem_size; elem++) {
+				temp += (data.data_list.array[i][elem] - data.ave.array[i]) * (data.data_list.array[j][elem] - data.ave.array[j]);
+			}
+			cout << "temp" << temp << endl;
+			data.cov_xx.array[i][j] = temp / (data.data_elem_size - 1);
 		}
 	}
 
@@ -160,7 +175,7 @@ void Cal::cal_inver(mydata_class& data) {
 		a.array[i] = data.cov_xy.array[get_inver_use_data(i)];
 	}
 
-	cout << "˜A—§•û’öŽ®‚ðŒvŽZ" << endl;
+	cout << "‹ts—ñ" << endl;
 	cout << "use_dim: ";
 	for (int i = 0; i < get_inver_dim(); i++) {
 		cout << get_inver_use_data(i) << ", ";

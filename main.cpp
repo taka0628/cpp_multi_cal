@@ -97,4 +97,5 @@ int main() {
 	}
 	cout << endl;
 	result.print_total_result();
+	result.print_graf();
 }

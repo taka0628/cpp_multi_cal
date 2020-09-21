@@ -18,7 +18,7 @@ void mydata_class::create_mem() {
 			data_list.create_array(data_dim_size, data_elem_size);
 			ave.create_array(data_dim_size);
 			var.create_array(data_dim_size);
-			cov_xx.create_array(data_dim_size - 1, data_elem_size);
+			cov_xx.create_array(data_dim_size - 1, data_dim_size - 1);
 			cov_xy.create_array(data_dim_size - 1);
 			multiple_regression_coefficient.create_array(data_dim_size);
 			inver_use_data.create_array(data_dim_size);

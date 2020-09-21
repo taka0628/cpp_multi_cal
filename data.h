@@ -7,17 +7,24 @@
 #include <cstdio>
 #include <new>
 #include <iostream>
+#include <vector>
 
 /*一次元配列と、その要素数を記憶するクラス*/
 class Array_1
 {
 	int array_size;//確保した配列の要素数
+	double max;
+	double min;
 
 public:
 	Array_1();
 	virtual ~Array_1();
 	void create_array(int size);//配列を確保、0に初期化される
 	int get_array_size() const;//配列の要素数を返す
+	void cal_max_min();
+
+	double get_max()const;
+	double get_min()const;
 
 	double* array;//配列本体
 };

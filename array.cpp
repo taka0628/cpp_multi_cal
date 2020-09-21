@@ -8,6 +8,8 @@ Array_1::Array_1()
 {
 	array = nullptr;
 	array_size = 0;
+	max = 0;
+	min = UINT32_MAX;
 }
 
 Array_1::~Array_1()
@@ -34,6 +36,33 @@ void Array_1::create_array(int size) {
 
 int Array_1::get_array_size() const {
 	return array_size;
+}
+
+void Array_1::cal_max_min() {
+	if (array == nullptr) {
+		cerr << "[ERROR]\n" << __func__ << endl;
+		exit;
+	}
+
+	double temp_max = 0, temp_min = UINT32_MAX;
+	for (int i = 0; i < get_array_size(); i++) {
+		if (temp_max < array[i]) {
+			temp_max = array[i];
+		}
+		if (temp_min > array[i]) {
+			temp_min = array[i];
+		}
+	}
+	max = temp_max;
+	min = temp_min;
+}
+
+double Array_1::get_max() const {
+	return max;
+}
+
+double Array_1::get_min() const {
+	return min;
 }
 
 

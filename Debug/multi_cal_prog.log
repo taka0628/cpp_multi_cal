@@ -1,2 +1,16 @@
-﻿  main.cpp
+﻿  Result.cpp
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\Result.cpp(16,3): warning C4551: 関数呼び出しに引数リストがありません。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\Result.cpp(63,97): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\Result.cpp(79,117): warning C4244: '引数': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\Result.cpp(85,20): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\Result.cpp(90,20): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\Result.cpp(99,20): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\Result.cpp(141,3): warning C4551: 関数呼び出しに引数リストがありません。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\Result.cpp(147,29): warning C4244: 'return': 'double' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\Result.cpp(151,3): warning C4551: 関数呼び出しに引数リストがありません。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\Result.cpp(176,20): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\Result.cpp(186,20): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\Result.cpp(18): warning C4715: 'power': 値を返さないコントロール パスがあります。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\Result.cpp(143): warning C4715: 'dis_result::get_expression': 値を返さないコントロール パスがあります。
+C:\Users\takat\source\repos\C++Study\multi_cal_prog\Result.cpp(153): warning C4715: 'dis_result::get_use_dim': 値を返さないコントロール パスがあります。
   multi_cal_prog.vcxproj -> C:\Users\takat\source\repos\C++Study\multi_cal_prog\Debug\multi_cal_prog.exe
