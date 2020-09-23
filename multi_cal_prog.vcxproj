@@ -72,6 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\takat\source\repos;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -93,6 +94,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -144,6 +146,7 @@
     <ClInclude Include="data.h" />
     <ClInclude Include="gnuplot.h" />
     <ClInclude Include="Result.h" />
+    <ClInclude Include="windows_time\windows_time.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="array.cpp" />
@@ -152,6 +155,7 @@
     <ClCompile Include="gnuplot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Result.cpp" />
+    <ClCompile Include="windows_time\windows_time.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

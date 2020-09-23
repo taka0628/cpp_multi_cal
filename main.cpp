@@ -2,6 +2,7 @@
 #include "cal_class.h"
 #include "data.h"
 #include "Result.h"
+#include "windows_time/windows_time.h"
 
 /*全ての説明変数の組み合わせから最適な説明変数を求める*/
 
@@ -60,6 +61,8 @@ int main() {
 
 	/*計算*/
 	Cal cal;
+	win_time time;
+	time.start();
 
 	cal.cal_ave(data);
 	cal.cal_var(data);
@@ -96,6 +99,9 @@ int main() {
 		result.input_score(dis_result);
 	}
 	cout << endl;
+	time.end();
+	double timer = time.get_time_ms();
+	cout << "[time]\n" << timer << "ms" << endl;
 	result.print_total_result();
 	result.print_graf();
 }
